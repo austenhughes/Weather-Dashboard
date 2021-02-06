@@ -1,5 +1,10 @@
+body{
+    background-image: url("./clouds.jpg");
+    height: 100%;
+}
+
 .header {
-    background: lightblue;
+    background: mintcream;
     color: darkblue;
     padding: 20px;
     text-align: center;
@@ -10,8 +15,8 @@
 .forcast {
     position: relative;
     left: 10px;
-    padding: 15px;
-    background: lightgrey;
+    padding: 30px;
+    background: mintcream;
     margin-left: 15px;
     margin-top: 10px;
     text-align: center;
@@ -23,8 +28,8 @@
 .searchBox {
     position: relative;
     left: 10px;
-    height: 1000px;
-    background: lightyellow;
+    height: 500px;
+    background: seashell;
     padding: 10px;
     margin-left: 10px;
     text-align: center;
