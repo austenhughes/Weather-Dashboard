@@ -35,13 +35,16 @@ var forcast5Temp = document.querySelector(".forcast5Temp");
 var forcast5WindSpeed = document.querySelector(".forcast5WindSpeed");
 var forcast5Humidity = document.querySelector(".forcast5Humidity");
 
-var pastSearches = document.querySelector(".pastSearches")
+var forcast = document.querySelector(".forcast");
+var today = document.querySelector(".today");
+
+var pastSearches = document.querySelector(".pastSearches");
 
 var I = 0;
 var arayToStoreSearches =[];
 var cityChosen = "";
-var lat = "";
-var lon = "";
+var Lat = "";
+var Lon = "";
 var cityBox =document.querySelector("#citySearch");
 
 var getCity =document.querySelector("#getCity");
@@ -49,18 +52,31 @@ getCity.addEventListener("click", checkInput);
 
 setPage();
 function setPage(){
-    var storedCity = localStorage.getItem(1)
-    console.log(storedCity)
+    var storedCity = localStorage.getItem(pastSearches);
+    storedCity = JSON.parse(storedCity);
+    console.log(storedCity);
 }
 
 function checkInput () {
+    card1Title.innerHTML = "";
+    forcast1Icon.innerHTML = "";
+    forcast2Icon.innerHTML = "";
+    forcast3Icon.innerHTML = "";
+    forcast4Icon.innerHTML = "";
+    forcast5Icon.innerHTML= "";
+
     I++
     var cityChoice = cityBox.value;
     console.log(cityChoice);
+
+    var cityOnPage = document.createElement("div");
+    cityOnPage.textContent=cityChoice
+    pastSearches.append(cityOnPage);
+
     cityChosen=cityChoice;
-    localStorage.setItem(I, cityChoice);
     arayToStoreSearches.push(cityChoice);
-    console.log(arayToStoreSearches)
+    localStorage.setItem( "pastSearches" ,JSON.stringify(arayToStoreSearches));
+    console.log(arayToStoreSearches);
     getWeather ();
 }
 
@@ -81,20 +97,24 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 
         console.log(data.coord.lat);
         console.log(data.coord.lon);
-        console.log(data.weather.icon);
-        // var dataIcon = (data.weather.icon);
+        console.log(data.weather[0].icon);
+        var dataIconSelected = (data.weather[0].icon);
+        dataIcon = document.createElement("img");
+        dataIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + (dataIconSelected) + "@2x.png" );
+        card1Title.append(dataIcon);
+        console.log(dataIcon);
 
         console.log(data.main.temp);
         var dataTemp = (data.main.temp);
-        card1Temp.innerHTML = dataTemp;
+        card1Temp.innerHTML = "Temp : " + dataTemp +" degrees fahrenheit";
 
         console.log(data.wind.speed);
         var dataWindSpeed = (data.wind.speed);
-        card1WindSpeed.innerHTML = dataWindSpeed;
+        card1WindSpeed.innerHTML = "Wind speed : " + dataWindSpeed;
 
         console.log(data.main.humidity);
         var dataHumidity = (data.main.humidity);
-        card1Humidity.innerHTML = dataHumidity;
+        card1Humidity.innerHTML = "Humidity : " + dataHumidity;
 
         lat = (data.coord.lat);
         lon = (data.coord.lon);
@@ -108,7 +128,7 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 
   
   
-// fetch("http://api.openweathermap.org/data/2.5/uvi?lat="+lat+"&lon="+lon+"&units=imperial&appid=a3abe673413f0d723de9584cc5352708", {
+// fetch("http://api.openweathermap.org/data/2.5/uvi?lat="+Lat+"&lon="+Lon+"&units=imperial&appid=a3abe673413f0d723de9584cc5352708", {
 //   cache: 'reload',
 // })
 //     .then(function (response) {
@@ -116,8 +136,8 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 //     })
 //     .then(function (data) {
 //         console.log(data);
-//         console.log(lat);
-//         console.log(lon);
+//         console.log(Lat);
+//         console.log(Lon);
 //     })
 
   
@@ -133,16 +153,19 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 
             console.log(data.list[0].wind.speed);
             var dataWindSpeed1 = (data.list[0].wind.speed);
-            forcast1WindSpeed.innerHTML = dataWindSpeed1;
+            forcast1WindSpeed.innerHTML = "Wind speed : " + dataWindSpeed1;
             console.log(data.list[0].main.temp);
             var dataTemp1 = (data.list[0].main.temp);
-            forcast1Temp.innerHTML = dataTemp1;
+            forcast1Temp.innerHTML = "Temp : "+ dataTemp1;
             console.log(data.list[0].main.humidity);
             var dataHumidity1 = (data.list[0].main.humidity);
-            forcast1Humidity.innerHTML = dataHumidity1;
-            console.log(data.list[0].weather.icon);
-            var dataIcon1 = (data.list[0].weather.icon);
-            forcast1Icon = dataIcon1;
+            forcast1Humidity.innerHTML = "Humidity : "+ dataHumidity1;
+            console.log(data.list[0].weather[0].icon);
+            var dataIconSelected1 = (data.list[0].weather[0].icon);
+            dataIcon1 = document.createElement("img");
+            dataIcon1.setAttribute("src", "http://openweathermap.org/img/wn/" + (dataIconSelected1) + "@2x.png" );
+            forcast1Icon.append(dataIcon1);
+            console.log(dataIcon1);
             console.log(data.list[0].dt_txt);
             var dataDate1 =(data.list[0].dt_txt);
             forcast1Date.innerHTML = dataDate1;
@@ -151,16 +174,19 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
         
             console.log(data.list[8].wind.speed);
             var dataWindSpeed2 = (data.list[8].wind.speed);
-            forcast2WindSpeed.innerHTML = dataWindSpeed2;
+            forcast2WindSpeed.innerHTML = "Wind speed : " + dataWindSpeed2;
             console.log(data.list[8].main.temp);
             var dataTemp2 = (data.list[8].main.temp);
-            forcast2Temp.innerHTML = dataTemp2;
+            forcast2Temp.innerHTML = "Temp : " + dataTemp2;
             console.log(data.list[8].main.humidity);
             var dataHumidity2 = (data.list[8].main.humidity);
-            forcast2Humidity.innerHTML = dataHumidity2;
-            console.log(data.list[8].weather.icon);
-            var dataIcon2 = (data.list[8].weather.icon);
-            forcast2Icon = dataIcon2;
+            forcast2Humidity.innerHTML = "Humidity : " + dataHumidity2;
+            console.log(data.list[8].weather[0].icon);
+            var dataIconSelected2 = (data.list[8].weather[0].icon);
+            dataIcon2 = document.createElement("img");
+            dataIcon2.setAttribute("src", "http://openweathermap.org/img/wn/" + (dataIconSelected2) + "@2x.png" );
+            forcast2Icon.append(dataIcon2);
+            console.log(dataIcon2);
             console.log(data.list[8].dt_txt);
             var dataDate2 =(data.list[8].dt_txt);
             forcast2Date.innerHTML = dataDate2;
@@ -169,16 +195,19 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 
             console.log(data.list[16].wind.speed);
             var dataWindSpeed3 = (data.list[16].wind.speed);
-            forcast3WindSpeed.innerHTML = dataWindSpeed3;
+            forcast3WindSpeed.innerHTML = "Wind speed : " + dataWindSpeed3;
             console.log(data.list[16].main.temp);
             var dataTemp3 = (data.list[16].main.temp);
-            forcast3Temp.innerHTML = dataTemp3;
+            forcast3Temp.innerHTML = "Temp : " + dataTemp3;
             console.log(data.list[16].main.humidity);
             var dataHumidity3 = (data.list[16].main.humidity);
-            forcast3Humidity.innerHTML = dataHumidity3;
-            console.log(data.list[16].weather.icon);
-            var dataIcon3 = (data.list[16].weather.icon);
-            forcast3Icon = dataIcon3;
+            forcast3Humidity.innerHTML = "Humidity : " + dataHumidity3;
+            console.log(data.list[16].weather[0].icon);
+            var dataIconSelected3 = (data.list[16].weather[0].icon);
+            dataIcon3 = document.createElement("img");
+            dataIcon3.setAttribute("src", "http://openweathermap.org/img/wn/" + (dataIconSelected3) + "@2x.png" );
+            forcast3Icon.append(dataIcon3);
+            console.log(dataIcon3);
             console.log(data.list[16].dt_txt);
             var dataDate3 =(data.list[16].dt_txt);
             forcast3Date.innerHTML = dataDate3;
@@ -187,16 +216,19 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 
             console.log(data.list[24].wind.speed);
             var dataWindSpeed4 = (data.list[24].wind.speed);
-            forcast4WindSpeed.innerHTML = dataWindSpeed4;
+            forcast4WindSpeed.innerHTML = "Wind speed : " + dataWindSpeed4;
             console.log(data.list[24].main.temp);
             var dataTemp4 = (data.list[24].main.temp);
-            forcast4Temp.innerHTML = dataTemp4;
+            forcast4Temp.innerHTML = "Temp : " + dataTemp4;
             console.log(data.list[24].main.humidity);
             var dataHumidity4 = (data.list[24].main.humidity);
-            forcast4Humidity.innerHTML = dataHumidity4;
-            console.log(data.list[24].weather.icon);
-            var dataIcon4 = (data.list[24].weather.icon);
-            forcast4Icon = dataIcon4;
+            forcast4Humidity.innerHTML = "Humidity : " + dataHumidity4;
+            console.log(data.list[24].weather[0].icon);
+            var dataIconSelected4 = (data.list[24].weather[0].icon);
+            dataIcon4 = document.createElement("img");
+            dataIcon4.setAttribute("src", "http://openweathermap.org/img/wn/" + (dataIconSelected4) + "@2x.png" );
+            forcast4Icon.append(dataIcon4);
+            console.log(dataIcon4);
             console.log(data.list[24].dt_txt);
             var dataDate4 =(data.list[24].dt_txt);
             forcast4Date.innerHTML = dataDate4;
@@ -205,19 +237,22 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 
             console.log(data.list[32].wind.speed);
             var dataWindSpeed5 = (data.list[32].wind.speed);
-            forcast5WindSpeed.innerHTML = dataWindSpeed5;
+            forcast5WindSpeed.innerHTML = "Wind speed : " + dataWindSpeed5;
 
             console.log(data.list[32].main.temp);
             var dataTemp5 = (data.list[32].main.temp);
-            forcast5Temp.innerHTML = dataTemp5;
+            forcast5Temp.innerHTML = "Temp : " + dataTemp5;
 
             console.log(data.list[32].main.humidity);
             var dataHumidity5 = (data.list[32].main.humidity);
-            forcast5Humidity.innerHTML = dataHumidity5;
+            forcast5Humidity.innerHTML = "Humidity : " + dataHumidity5;
 
-            console.log(data.list[32].weather.icon);
-            var dataIcon5 = (data.list[32].weather.icon);
-            forcast5Icon = dataIcon5;
+            console.log(data.list[32].weather[0].icon);
+            var dataIconSelected5 = (data.list[32].weather[0].icon);
+            dataIcon5 = document.createElement("img");
+            dataIcon5.setAttribute("src", "http://openweathermap.org/img/wn/" + (dataIconSelected5) + "@2x.png" );
+            forcast5Icon.append(dataIcon5);
+            console.log(dataIcon5);
 
             console.log(data.list[32].dt_txt);
             var dataDate5 =(data.list[32].dt_txt);
