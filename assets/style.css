@@ -4,7 +4,7 @@ body{
 }
 
 .header {
-    background: mintcream;
+    background: lightcyan;
     color: darkblue;
     padding: 20px;
     text-align: center;
@@ -16,7 +16,7 @@ body{
     position: relative;
     left: 10px;
     padding: 30px;
-    background: mintcream;
+    background: lightcyan;
     margin-left: 15px;
     margin-top: 10px;
     text-align: center;
@@ -29,7 +29,7 @@ body{
     position: relative;
     left: 10px;
     height: 500px;
-    background: seashell;
+    background: cornsilk;
     padding: 10px;
     margin-left: 10px;
     text-align: center;
@@ -41,8 +41,9 @@ body{
 
 .today {
     position: relative;
+    color: white;
     left: 10px;
-    background: seashell; 
+    background: silver; 
     padding: 15px;
     margin: 2px;
     text-align: left;

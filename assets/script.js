@@ -1,5 +1,5 @@
 var card1Title =document.querySelector(".card1Title");
-// var card1Icon = document.querySelector(".card1Icon");
+var card1Date = document.querySelector(".card1Date")
 var card1Temp = document.querySelector(".card1Temp");
 var card1Humidity = document.querySelector(".card1Humidity");
 var card1WindSpeed = document.querySelector(".card1WindSpeed");
@@ -40,7 +40,6 @@ var today = document.querySelector(".today");
 
 var pastSearches = document.querySelector(".pastSearches");
 
-var I = 0;
 var arayToStoreSearches =[];
 var cityChosen = "";
 var Lat = "";
@@ -52,21 +51,38 @@ var cityBox =document.querySelector("#citySearch");
 var getCity =document.querySelector("#getCity");
 getCity.addEventListener("click", checkInput);
 
+var clear = document.querySelector("#clear");
+clear.addEventListener("click", clearList);
+
 setPage();
 function setPage(){
+
     console.log(localStorage)
-    var city = localStorage
-    console.log(city);
-    var cityOnPageStart = document.createElement("div");
-    cityOnPageStart.textContent=city
-    pastSearches.append(cityOnPageStart);
+    var city = window.localStorage.getItem("searchHistory")
+    var cityToWrite = JSON.parse(city);
+    console.log(cityToWrite);
     
-    // var storedCity = localStorage.getItem(pastSearches);
-    // var storedCityOnPage = JSON.parse(storedCity);
-    // console.log(storedCityOnPage);
+    for (var i=0; i<cityToWrite.length; i++){
+
+    var cityOnPageStart = document.createElement("div");
+    cityOnPageStart.textContent=cityToWrite[i];
+    cityOnPageStart.addEventListener("click", searchAgain);
+    pastSearches.append(cityOnPageStart);
+    arayToStoreSearches.push(cityToWrite[i]);
+    } 
+
+}
+
+function searchAgain () {
+  searchAgainchoice = this.textContent;
+  console.log(this.textContent);
+  console.log(searchAgainchoice);
+  cityChosen = searchAgainchoice;
+  getWeather ();
 }
 
 function checkInput () {
+
     card1Title.innerHTML = "";
     forcast1Icon.innerHTML = "";
     forcast2Icon.innerHTML = "";
@@ -74,18 +90,20 @@ function checkInput () {
     forcast4Icon.innerHTML = "";
     forcast5Icon.innerHTML= "";
 
-    I++
     var cityChoice = cityBox.value;
     console.log(cityChoice);
 
     var cityOnPage = document.createElement("div");
-    cityOnPage.textContent=cityChoice
+    cityOnPage.textContent=cityChoice;
+    cityOnPage.addEventListener("click", searchAgain);
     pastSearches.append(cityOnPage);
 
     cityChosen=cityChoice;
+
     arayToStoreSearches.push(cityChoice);
-    localStorage.setItem( "pastSearches" ,JSON.stringify(arayToStoreSearches));
+    localStorage.setItem( "searchHistory" ,JSON.stringify(arayToStoreSearches));
     console.log(arayToStoreSearches);
+
     getWeather ();
 }
 
@@ -101,13 +119,10 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
         console.log(data);
 
         console.log(data.name);
-        var dataName = (data.name)
+        var dataName = (data.name);
         card1Title.innerHTML = dataName;
 
-        // console.log(data.coord.lat);
-        // console.log(data.coord.lon);
         console.log(data.weather[0].icon);
-       
         var dataIconSelected = (data.weather[0].icon);
         dataIcon = document.createElement("img");
         dataIcon.setAttribute("src", "http://openweathermap.org/img/wn/" + (dataIconSelected) + "@2x.png" );
@@ -126,6 +141,8 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
         var dataHumidity = (data.main.humidity);
         card1Humidity.innerHTML = "Humidity : " + dataHumidity;
 
+         // console.log(data.coord.lat);
+        // console.log(data.coord.lon);
         // Lat = (data.coord.lat);
         // Lon = (data.coord.lon);
         // console.log(Lat);
@@ -137,7 +154,7 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 
     fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityChosen + "&units=imperial&appid=a3abe673413f0d723de9584cc5352708", {
   cache: 'reload',
-})
+  })
   .then(function (response) {
     return response.json();
   })
@@ -260,6 +277,9 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
       })
       .then(function (data) {
           console.log(data);
+          console.log(data.date_iso);
+          date = (data.date_iso)
+          card1Date.innerHTML = date
           console.log(data.value);
           var UVIndex = (data.value);
           card1UVIndex.innerHTML = "UV Index : "+ UVIndex;
@@ -275,4 +295,9 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
           }
       })
 
+}
+
+function clearList(){
+  pastSearches.innerHTML = "";
+  localStorage.clear();
 }
