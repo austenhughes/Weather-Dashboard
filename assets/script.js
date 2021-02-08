@@ -42,8 +42,8 @@ var pastSearches = document.querySelector(".pastSearches");
 
 var arayToStoreSearches =[];
 var cityChosen = "";
-var Lat = "";
-var Lon = "";
+var Lat = 0;
+var Lon = 0;
 var LatAndLon = "";
 
 var cityBox =document.querySelector("#citySearch");
@@ -83,13 +83,6 @@ function searchAgain () {
 
 function checkInput () {
 
-    card1Title.innerHTML = "";
-    forcast1Icon.innerHTML = "";
-    forcast2Icon.innerHTML = "";
-    forcast3Icon.innerHTML = "";
-    forcast4Icon.innerHTML = "";
-    forcast5Icon.innerHTML= "";
-
     var cityChoice = cityBox.value;
     console.log(cityChoice);
 
@@ -108,6 +101,13 @@ function checkInput () {
 }
 
 function getWeather(){
+
+    card1Title.innerHTML = "";
+    forcast1Icon.innerHTML = "";
+    forcast2Icon.innerHTML = "";
+    forcast3Icon.innerHTML = "";
+    forcast4Icon.innerHTML = "";
+    forcast5Icon.innerHTML= "";
 
 fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&units=imperial&appid=a3abe673413f0d723de9584cc5352708", {
   cache: 'reload',
@@ -141,14 +141,14 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
         var dataHumidity = (data.main.humidity);
         card1Humidity.innerHTML = "Humidity : " + dataHumidity;
 
-         // console.log(data.coord.lat);
-        // console.log(data.coord.lon);
-        // Lat = (data.coord.lat);
-        // Lon = (data.coord.lon);
-        // console.log(Lat);
-        // console.log(Lon);
-        // LatAndLon = (Lat+"&lon="+Lon);
-        // console.log(LatAndLon)
+         console.log(data.coord.lat);
+        console.log(data.coord.lon);
+        Lat = (data.coord.lat);
+        Lon = (data.coord.lon);
+        console.log(Lat);
+        console.log(Lon);
+        LatAndLon = ("http://api.openweathermap.org/data/2.5/uvi?lat="+Lat+"&lon="+Lon+"&appid=a3abe673413f0d723de9584cc5352708");
+        console.log(LatAndLon)
         
   });  
 
@@ -178,7 +178,8 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
             console.log(dataIcon1);
             console.log(data.list[0].dt_txt);
             var dataDate1 =(data.list[0].dt_txt);
-            forcast1Date.innerHTML = dataDate1;
+            dateOnPage1 = dataDate1.substring(0,10);
+            forcast1Date.innerHTML = dateOnPage1;
 
         console.log(data.list[8]);
         
@@ -199,7 +200,8 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
             console.log(dataIcon2);
             console.log(data.list[8].dt_txt);
             var dataDate2 =(data.list[8].dt_txt);
-            forcast2Date.innerHTML = dataDate2;
+            dateOnPage2 = dataDate2.substring(0,10);
+            forcast2Date.innerHTML = dateOnPage2;
 
         console.log(data.list[16]);
 
@@ -220,7 +222,8 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
             console.log(dataIcon3);
             console.log(data.list[16].dt_txt);
             var dataDate3 =(data.list[16].dt_txt);
-            forcast3Date.innerHTML = dataDate3;
+            dateOnPage3 = dataDate3.substring(0,10);
+            forcast3Date.innerHTML = dateOnPage3;
 
         console.log(data.list[24]);
 
@@ -241,7 +244,8 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
             console.log(dataIcon4);
             console.log(data.list[24].dt_txt);
             var dataDate4 =(data.list[24].dt_txt);
-            forcast4Date.innerHTML = dataDate4;
+            dateOnPage4 = dataDate4.substring(0,10);
+            forcast4Date.innerHTML = dateOnPage4;
 
         console.log(data.list[32]);
 
@@ -266,10 +270,11 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
 
             console.log(data.list[32].dt_txt);
             var dataDate5 =(data.list[32].dt_txt);
-            forcast5Date.innerHTML = dataDate5;
+            dateOnPage5 = dataDate5.substring(0,10);
+            forcast5Date.innerHTML = dateOnPage5;
   });
 
-  fetch("http://api.openweathermap.org/data/2.5/uvi?lat=37.75&lon=-122.37&appid=a3abe673413f0d723de9584cc5352708", {
+  fetch("http://api.openweathermap.org/data/2.5/uvi?lat=" +Lat+ "&lon=" +Lon+ "&appid=a3abe673413f0d723de9584cc5352708", {
     cache: 'reload',
   })
       .then(function (response) {
@@ -279,7 +284,9 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
           console.log(data);
           console.log(data.date_iso);
           date = (data.date_iso)
-          card1Date.innerHTML = date
+          dateOnPage = date.substring(0,10);
+          card1Date.innerHTML = dateOnPage
+          
           console.log(data.value);
           var UVIndex = (data.value);
           card1UVIndex.innerHTML = "UV Index : "+ UVIndex;
@@ -301,3 +308,4 @@ function clearList(){
   pastSearches.innerHTML = "";
   localStorage.clear();
 }
+
