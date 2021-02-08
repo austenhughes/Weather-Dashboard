@@ -274,7 +274,7 @@ fetch("https://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&unit
             forcast5Date.innerHTML = dateOnPage5;
   });
 
-  fetch("http://api.openweathermap.org/data/2.5/uvi?lat=" +Lat+ "&lon=" +Lon+ "&appid=a3abe673413f0d723de9584cc5352708", {
+  fetch("https://api.openweathermap.org/data/2.5/uvi?lat=" +Lat+ "&lon=" +Lon+ "&appid=a3abe673413f0d723de9584cc5352708", {
     cache: 'reload',
   })
       .then(function (response) {
