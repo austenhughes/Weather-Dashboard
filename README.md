@@ -32,6 +32,8 @@ OpenWeather API</br>
 Bootstrap</br>
 Local storage
 
+link to site : https://austenhughes.github.io/Weather-Dashboard/
+
 picture of site : ![](assets/dashboard.png)
 
-link to site : https://austenhughes.github.io/Weather-Dashboard/
+
