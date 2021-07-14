@@ -27,7 +27,7 @@ Extra features :
 
 - click to search the city again : Each searched city will be added to a list stored beneath the search bar. this search bar will build until cleared. when the page is reloaded the past searches will load again unless cleared with clear button. *** if you click on any city on the list you will reload the weather info for that city to the page again.
 
-Used in site :
+Used in site :</br>
 OpenWeather API</br>
 Bootstrap</br>
 Local storage
